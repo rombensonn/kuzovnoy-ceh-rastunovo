@@ -338,7 +338,6 @@ $jsonLd = [
                                         <b><?= h($price); ?></b>
                                         <?php if ($unit !== ''): ?><small><?= h($unit); ?></small><?php endif; ?>
                                     </div>
-                                    <button class="mini-action" type="button" data-service-name="<?= h($name); ?>">Запись</button>
                                 </div>
                             <?php endforeach; ?>
                         </div>
@@ -360,7 +359,6 @@ $jsonLd = [
                                         <b><?= h($price); ?></b>
                                         <?php if ($unit !== ''): ?><small><?= h($unit); ?></small><?php endif; ?>
                                     </div>
-                                    <button class="mini-action" type="button" data-service-name="<?= h($name); ?>">Запись</button>
                                 </div>
                             <?php endforeach; ?>
                         </div>
@@ -382,7 +380,6 @@ $jsonLd = [
                                         <b><?= h($price); ?></b>
                                         <?php if ($unit !== ''): ?><small><?= h($unit); ?></small><?php endif; ?>
                                     </div>
-                                    <button class="mini-action" type="button" data-service-name="<?= h($name); ?>">Запись</button>
                                 </div>
                             <?php endforeach; ?>
                         </div>

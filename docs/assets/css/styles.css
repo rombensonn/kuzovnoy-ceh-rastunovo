@@ -211,9 +211,10 @@ img {
     padding-top: 84px;
     padding-bottom: 82px;
     background:
-        radial-gradient(circle at 78% 22%, rgba(229, 62, 47, 0.32), transparent 30%),
-        radial-gradient(circle at 18% 72%, rgba(196, 122, 60, 0.18), transparent 32%),
-        linear-gradient(135deg, #08090b 0%, #11151a 58%, #23100e 100%);
+        linear-gradient(90deg, rgba(8, 9, 11, 0.96) 0%, rgba(8, 9, 11, 0.82) 42%, rgba(8, 9, 11, 0.58) 100%),
+        radial-gradient(circle at 77% 24%, rgba(229, 62, 47, 0.34), transparent 30%),
+        radial-gradient(circle at 20% 78%, rgba(196, 122, 60, 0.2), transparent 33%),
+        url("../img/hero-background-8k.png") center / cover no-repeat;
 }
 
 .hero::after {
@@ -657,8 +658,7 @@ h3 {
     font-weight: 900;
 }
 
-.text-action,
-.mini-action {
+.text-action {
     min-height: 44px;
     border: 0;
     border-radius: var(--radius);
@@ -752,15 +752,6 @@ h3 {
 .price-value small {
     color: var(--muted);
     font-size: 0.8rem;
-}
-
-.mini-action {
-    grid-column: 1 / -1;
-    width: 100%;
-    min-height: 36px;
-    padding: 0 14px;
-    color: #ffffff;
-    background: rgba(229, 62, 47, 0.16);
 }
 
 #prices {
@@ -899,6 +890,32 @@ h3 {
         radial-gradient(circle at 18% 18%, rgba(229, 62, 47, 0.34), transparent 28%),
         radial-gradient(circle at 82% 36%, rgba(196, 122, 60, 0.24), transparent 34%),
         linear-gradient(135deg, #190d0c 0%, #102333 54%, #0d0f12 100%);
+}
+
+.section-trust .trust-grid {
+    display: block;
+}
+
+.section-trust .section-heading {
+    max-width: 800px;
+    margin: 0 auto 30px;
+    text-align: center;
+}
+
+.section-trust .section-heading p {
+    max-width: 680px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.section-trust .section-heading .btn {
+    margin-top: 8px;
+}
+
+.section-trust .review-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 980px;
+    margin: 0 auto;
 }
 
 .review-card {
@@ -1207,7 +1224,6 @@ h3 {
     .brand,
     .scenario-card,
     .price-row,
-    .mini-action,
     .text-action,
     .process-list li,
     .photo-card,
@@ -1246,9 +1262,7 @@ h3 {
 
     .btn-secondary:hover,
     .btn-secondary:focus-visible,
-    .map-link:hover,
-    .mini-action:hover,
-    .mini-action:focus-visible {
+    .map-link:hover {
         border-color: var(--line-strong);
         background: rgba(255, 255, 255, 0.14);
     }
@@ -1331,8 +1345,9 @@ h3 {
         min-height: auto;
         padding-top: 56px;
         background:
-            radial-gradient(circle at 85% 20%, rgba(229, 62, 47, 0.28), transparent 34%),
-            linear-gradient(180deg, #08090b, #11151a);
+            linear-gradient(180deg, rgba(8, 9, 11, 0.96), rgba(8, 9, 11, 0.84)),
+            radial-gradient(circle at 85% 20%, rgba(229, 62, 47, 0.25), transparent 34%),
+            url("../img/hero-background-8k.png") center / cover no-repeat;
     }
 
     .hero-copy,
@@ -1409,6 +1424,10 @@ h3 {
         grid-template-columns: 1fr;
     }
 
+    .section-trust .review-list {
+        grid-template-columns: 1fr;
+    }
+
     .scenario-card,
     .process-list li {
         min-height: auto;
@@ -1421,10 +1440,6 @@ h3 {
 
     .price-value {
         text-align: left;
-    }
-
-    .mini-action {
-        width: 100%;
     }
 
     .map-card {
