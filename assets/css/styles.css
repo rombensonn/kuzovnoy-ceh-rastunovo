@@ -342,18 +342,56 @@ h3 {
 .trust-strip {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 12px;
+    gap: 0;
     max-width: 760px;
     margin: 36px 0 0;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: var(--radius);
+    background:
+        linear-gradient(135deg, rgba(229, 62, 47, 0.13), rgba(196, 122, 60, 0.06)),
+        rgba(21, 24, 29, 0.72);
+    box-shadow: 0 22px 48px rgba(0, 0, 0, 0.26);
+    backdrop-filter: blur(12px);
 }
 
 .trust-strip div {
-    min-height: 92px;
-    padding: 17px;
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    background: rgba(21, 24, 29, 0.7);
-    backdrop-filter: blur(12px);
+    position: relative;
+    min-height: 84px;
+    padding: 16px 18px 16px 52px;
+    border-right: 1px solid rgba(255, 255, 255, 0.11);
+}
+
+.trust-strip div:last-child {
+    border-right: 0;
+}
+
+.trust-strip div::before {
+    position: absolute;
+    top: 21px;
+    left: 18px;
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    color: #ffffff;
+    background: linear-gradient(135deg, var(--primary), var(--copper));
+    font-size: 0.72rem;
+    font-weight: 900;
+}
+
+.trust-strip div:nth-child(1)::before {
+    content: "R";
+}
+
+.trust-strip div:nth-child(2)::before {
+    content: "64";
+    font-size: 0.62rem;
+}
+
+.trust-strip div:nth-child(3)::before {
+    content: "10";
 }
 
 .trust-strip dt {
@@ -389,10 +427,7 @@ h3 {
 }
 
 .quick-card-head {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 14px;
-    align-items: center;
+    display: block;
     padding-bottom: 14px;
     border-bottom: 1px solid var(--line);
 }
@@ -645,6 +680,11 @@ h3 {
     gap: 12px;
 }
 
+.price-columns {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: start;
+}
+
 .price-group {
     overflow: hidden;
     border: 1px solid var(--line);
@@ -653,12 +693,14 @@ h3 {
 }
 
 .price-group-head {
-    display: grid;
-    grid-template-columns: minmax(0, 260px) 1fr;
-    gap: 18px;
+    display: block;
     padding: 14px 18px;
     border-bottom: 1px solid var(--line);
     background: rgba(255, 255, 255, 0.045);
+}
+
+.price-group-head h3 {
+    margin-bottom: 4px;
 }
 
 .price-group-head p {
@@ -672,11 +714,11 @@ h3 {
 
 .price-row {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(128px, auto) auto;
-    gap: 18px;
-    align-items: center;
-    min-height: 58px;
-    padding: 10px 18px;
+    grid-template-columns: 1fr auto;
+    gap: 8px 12px;
+    align-items: start;
+    min-height: 64px;
+    padding: 10px 14px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.09);
 }
 
@@ -713,6 +755,9 @@ h3 {
 }
 
 .mini-action {
+    grid-column: 1 / -1;
+    width: 100%;
+    min-height: 36px;
     padding: 0 14px;
     color: #ffffff;
     background: rgba(229, 62, 47, 0.16);
@@ -1248,6 +1293,10 @@ h3 {
         grid-template-columns: 1fr;
     }
 
+    .price-columns {
+        grid-template-columns: 1fr;
+    }
+
     .hero-copy {
         max-width: 860px;
     }
@@ -1327,6 +1376,15 @@ h3 {
     .inspection-list,
     .photo-grid {
         grid-template-columns: 1fr;
+    }
+
+    .trust-strip div {
+        border-right: 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.11);
+    }
+
+    .trust-strip div:last-child {
+        border-bottom: 0;
     }
 
     .hero-actions .btn {

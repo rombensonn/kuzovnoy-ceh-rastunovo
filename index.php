@@ -230,7 +230,6 @@ $jsonLd = [
 
                 <aside class="hero-lead-card" aria-label="Короткая форма записи">
                     <div class="quick-card-head">
-                        <span class="rating-badge">4,9</span>
                         <div>
                             <strong>Быстрая запись</strong>
                             <p>Оставьте телефон и задачу. Для точной цены мастер пригласит на осмотр.</p>
@@ -322,7 +321,7 @@ $jsonLd = [
                     </p>
                 </div>
 
-                <div class="price-layout">
+                <div class="price-layout price-columns">
                     <article class="price-group">
                         <div class="price-group-head">
                             <h3>Покраска</h3>
