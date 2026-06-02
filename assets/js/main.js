@@ -1,7 +1,6 @@
 (function () {
-    const form = document.querySelector('[data-lead-form]');
-    const serviceSelect = document.querySelector('[data-service-select]');
-    const statusNode = document.querySelector('[data-form-status]');
+    const forms = Array.from(document.querySelectorAll('[data-lead-form]'));
+    const serviceSelects = Array.from(document.querySelectorAll('[data-service-select]'));
     const serviceButtons = document.querySelectorAll('[data-service-name]');
     const desktopMotion = window.matchMedia('(min-width: 761px)').matches &&
         !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -9,8 +8,7 @@
     if (desktopMotion && 'IntersectionObserver' in window) {
         const revealItems = document.querySelectorAll([
             '.hero-copy',
-            '.hero-frame',
-            '.hero-panel',
+            '.hero-lead-card',
             '.scenario-card',
             '.price-group',
             '.inspection-list article',
@@ -48,7 +46,8 @@
         }
     }
 
-    function setStatus(message, type) {
+    function setStatus(form, message, type) {
+        const statusNode = form.querySelector('[data-form-status]');
         if (!statusNode) {
             return;
         }
@@ -63,13 +62,12 @@
     serviceButtons.forEach((button) => {
         button.addEventListener('click', () => {
             const serviceName = button.getAttribute('data-service-name') || '';
-            if (serviceSelect && serviceName) {
-                const option = Array.from(serviceSelect.options).find((item) => item.value === serviceName);
-                if (option) {
-                    serviceSelect.value = serviceName;
-                } else {
-                    serviceSelect.value = 'Другое';
-                }
+
+            if (serviceName) {
+                serviceSelects.forEach((select) => {
+                    const option = Array.from(select.options).find((item) => item.value === serviceName);
+                    select.value = option ? serviceName : 'Другое';
+                });
             }
 
             const target = document.getElementById('lead');
@@ -77,75 +75,75 @@
                 target.scrollIntoView({ behavior: desktopMotion ? 'smooth' : 'auto', block: 'start' });
             }
 
-            const phone = form ? form.querySelector('input[name="phone"]') : null;
+            const mainForm = document.querySelector('.lead-form');
+            const phone = mainForm ? mainForm.querySelector('input[name="phone"]') : null;
             if (phone) {
                 window.setTimeout(() => phone.focus(), desktopMotion ? 420 : 0);
             }
         });
     });
 
-    if (!form) {
-        return;
-    }
+    forms.forEach((form) => {
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
 
-    form.addEventListener('submit', async (event) => {
-        event.preventDefault();
+            const submit = form.querySelector('button[type="submit"]');
+            const phone = form.querySelector('input[name="phone"]');
+            const privacy = form.querySelector('input[name="privacy"]');
+            const initialText = submit ? submit.textContent : '';
 
-        const submit = form.querySelector('button[type="submit"]');
-        const phone = form.querySelector('input[name="phone"]');
-        const privacy = form.querySelector('input[name="privacy"]');
+            if (phone && phone.value.replace(/\D/g, '').length < 10) {
+                setStatus(form, 'Укажите телефон, чтобы мастер мог связаться с вами.', 'error');
+                phone.focus();
+                return;
+            }
 
-        if (phone && phone.value.replace(/\D/g, '').length < 10) {
-            setStatus('Укажите телефон, чтобы мастер мог связаться с вами.', 'error');
-            phone.focus();
-            return;
-        }
+            if (privacy && privacy.type !== 'hidden' && !privacy.checked) {
+                setStatus(form, 'Подтвердите согласие на обработку данных для обратной связи.', 'error');
+                privacy.focus();
+                return;
+            }
 
-        if (privacy && !privacy.checked) {
-            setStatus('Подтвердите согласие на обработку данных для обратной связи.', 'error');
-            privacy.focus();
-            return;
-        }
-
-        if (submit) {
-            submit.disabled = true;
-            submit.textContent = 'Отправляем...';
-        }
-        setStatus('Отправляем заявку...', '');
-
-        if (document.body.dataset.staticPages === '1') {
-            setStatus('На GitHub Pages форма работает как демонстрация без PHP. Для записи позвоните по номеру на сайте.', 'error');
             if (submit) {
-                submit.disabled = false;
-                submit.textContent = 'Отправить заявку';
+                submit.disabled = true;
+                submit.textContent = 'Отправляем...';
             }
-            return;
-        }
+            setStatus(form, 'Отправляем заявку...', '');
 
-        try {
-            const response = await fetch(form.action, {
-                method: 'POST',
-                body: new FormData(form),
-                headers: {
-                    Accept: 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest',
-                },
-            });
-            const data = await response.json();
-
-            if (!response.ok || !data.ok) {
-                throw new Error(data.message || 'Заявка не отправилась. Позвоните по телефону в шапке сайта.');
+            if (document.body.dataset.staticPages === '1') {
+                setStatus(form, 'На GitHub Pages форма работает как демонстрация без PHP. Для записи позвоните по номеру на сайте.', 'error');
+                if (submit) {
+                    submit.disabled = false;
+                    submit.textContent = initialText;
+                }
+                return;
             }
 
-            form.reset();
-            setStatus(data.message || 'Заявка отправлена. Скоро с вами свяжутся.', 'success');
-        } catch (error) {
-            setStatus(error.message || 'Заявка не отправилась. Позвоните по телефону в шапке сайта.', 'error');
-        } finally {
-            if (submit) {
-                submit.disabled = false;
-                submit.textContent = 'Отправить заявку';
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: new FormData(form),
+                    headers: {
+                        Accept: 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest',
+                    },
+                });
+                const data = await response.json();
+
+                if (!response.ok || !data.ok) {
+                    throw new Error(data.message || 'Заявка не отправилась. Позвоните по телефону в шапке сайта.');
+                }
+
+                form.reset();
+                setStatus(form, data.message || 'Заявка отправлена. Скоро с вами свяжутся.', 'success');
+            } catch (error) {
+                setStatus(form, error.message || 'Заявка не отправилась. Позвоните по телефону в шапке сайта.', 'error');
+            } finally {
+                if (submit) {
+                    submit.disabled = false;
+                    submit.textContent = initialText;
+                }
             }
-        }
+        });
     });
 })();

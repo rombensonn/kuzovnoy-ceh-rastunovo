@@ -109,8 +109,6 @@ $photoSlots = [
     ['src' => 'assets/img/work-polishing.png', 'alt' => 'Индустриальная визуальная сцена полировки кузова', 'caption' => 'Полировка и восстановление блеска'],
 ];
 
-$heroImage = 'assets/img/hero-industrial.png';
-
 $availablePhotos = array_values(array_filter($photoSlots, static function (array $photo): bool {
     return is_file(__DIR__ . '/' . $photo['src']);
 }));
@@ -230,28 +228,48 @@ $jsonLd = [
                     </dl>
                 </div>
 
-                <div class="hero-visual" aria-label="Визуальный образ кузовного цеха">
-                    <figure class="visual-frame hero-frame">
-                        <img src="<?= h($heroImage); ?>" alt="Индустриальная сцена покраски кузовной детали в темном цехе" width="1600" height="900">
-                        <figcaption>Визуальный образ: покраска, металл, контроль света</figcaption>
-                    </figure>
-
-                    <aside class="hero-panel" aria-label="Кратко перед обращением">
-                        <div class="panel-top">
-                            <span class="rating-badge">4,9</span>
-                            <div>
-                                <strong>46 отзывов</strong>
-                                <p>Клиенты чаще отмечают качество покраски, попадание в цвет, согласование работ и сроки.</p>
-                            </div>
+                <aside class="hero-lead-card" aria-label="Короткая форма записи">
+                    <div class="quick-card-head">
+                        <span class="rating-badge">4,9</span>
+                        <div>
+                            <strong>Быстрая запись</strong>
+                            <p>Оставьте телефон и задачу. Для точной цены мастер пригласит на осмотр.</p>
                         </div>
-                        <ul class="check-list">
-                            <li>Стоимость по прайсу видна заранее, сложные случаи считают после осмотра.</li>
-                            <li>Запчасти и дополнительные работы согласуются до выполнения.</li>
-                            <li>Можно быстро оставить заявку или позвонить с телефона.</li>
-                        </ul>
-                        <a class="map-link" href="<?= h($mapsUrl); ?>" target="_blank" rel="noopener">Открыть карточку на Яндекс.Картах</a>
-                    </aside>
-                </div>
+                    </div>
+
+                    <form class="quick-form" action="lead.php" method="post" data-lead-form data-short-form novalidate>
+                        <div class="form-status" role="status" aria-live="polite" data-form-status></div>
+
+                        <label>
+                            <span>Телефон *</span>
+                            <input type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="+7 ___ ___-__-__" required>
+                        </label>
+
+                        <label>
+                            <span>Задача</span>
+                            <select name="service" data-service-select>
+                                <?php foreach ($serviceOptions as $option): ?>
+                                    <option value="<?= h($option); ?>"><?= h($option); ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </label>
+
+                        <input type="hidden" name="name" value="">
+                        <input type="hidden" name="car" value="">
+                        <input type="hidden" name="comment" value="Заявка из короткой формы первого экрана">
+                        <input type="hidden" name="privacy" value="1">
+
+                        <label class="trap-field" aria-hidden="true">
+                            <span>Сайт</span>
+                            <input type="text" name="website" tabindex="-1" autocomplete="off">
+                        </label>
+
+                        <button class="btn btn-primary btn-wide" type="submit">Жду звонка</button>
+                        <p class="form-help">Нажимая кнопку, вы соглашаетесь на обратную связь по заявке.</p>
+                    </form>
+
+                    <a class="map-link" href="<?= h($mapsUrl); ?>" target="_blank" rel="noopener">Открыть карточку на Яндекс.Картах</a>
+                </aside>
             </div>
         </section>
 
